@@ -1,0 +1,43 @@
+pipeline {
+   agent { node ('jenkins-qa-plugin-slave')}
+
+  environment {
+        PROJECT_NAME = "teste_teste"
+   }
+ 
+stages{ 
+    stage('Docker build') {
+      steps {
+        sh """
+          docker build -t $PROJECT_NAME . -f Dockerfile
+        """
+      }
+    }
+ 
+     stage('Test: QA API') {
+      steps {
+        echo 'rodar os teste de API'
+         sh """
+           docker run --rm --network host \
+           -v ${PWD}/workspace/$PROJECT_NAME/allure-results:/$PROJECT_NAME/allure-results \
+           -i $PROJECT_NAME \
+           cucumber -t @dados_usuario
+         """
+      }
+    }
+   
+    stage('Quality Gate - Report') {
+      steps {
+        script {
+          allure([
+            includeProperties: false,
+            jdk: '',
+            properties: [],
+            reportBuildPolicy: 'ALWAYS',
+            results: [[path: '/allure-results']]
+          ])
+        }
+      }
+    }
+  }
+}

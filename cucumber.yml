@@ -1,0 +1,7 @@
+default: -p pretty -p ci -p hk -p allure
+
+azul: ENVIRONMENT_TYPE=azul
+hk: ENVIRONMENT_TYPE=hk
+pretty: --format pretty
+ci: --format progress
+allure: --format AllureCucumber::CucumberFormatter --out allure-results

@@ -1,0 +1,7 @@
+url:
+  url_base: 'https://url_teste.com.br/api/pf'
+  url_token: 'https:url_teste.autenticar'
+
+parametros:
+  dados_usuario:   '/url/teste/xpto2'
+  anuncios_carro: '/url/teste/xpto'

@@ -1,0 +1,16 @@
+before_script:
+  - chmod +x alpine.sh
+  - ./alpine.sh
+  - gem install bundler --no-document
+image: ruby:alpine
+test:
+  tags:
+    - docker
+  stage: test
+  script:
+  - bundle install
+  - bundle exec cucumber
+  artifacts:
+    when: always
+    paths:
+       - relatorios/report.html
